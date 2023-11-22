@@ -9,7 +9,8 @@ class Ball:
         self.vx = random.randint(1, 0.01 * canvas_width)
         self.vy = random.randint(1, 0.01 * canvas_height)
         self.radius = ball_radius
-        self.color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+        self.color = (
+        random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
 
     def move_circle(self, canvas_width, canvas_height):
         # update the x, y coordinates of the ball with velocity
@@ -32,3 +33,36 @@ class Ball:
         turtle.begin_fill()
         turtle.circle(self.radius)
         turtle.end_fill()
+
+
+class Ball_Simulator:
+    def __init__(self, canvas_width, canvas_height, ball_radius, num_balls):
+        self.canvas_width = canvas_width
+        self.canvas_height = canvas_height
+        self.balls = [Ball(canvas_width, canvas_height, ball_radius) for _ in
+                      range(num_balls)]
+
+    def update_balls(self):
+        for ball in self.balls:
+            ball.move_circle(self.canvas_width, self.canvas_height)
+
+    def draw_balls(self):
+        for ball in self.balls:
+            ball.draw()
+
+
+num_balls = int(input("Number of balls to simulate: "))
+turtle.speed(0)
+turtle.tracer(0)
+turtle.hideturtle()
+canvas_width, canvas_height = turtle.screensize()
+ball_radius = 0.05 * canvas_width
+turtle.colormode(255)
+
+simulator = Ball_Simulator(canvas_width, canvas_height, ball_radius, num_balls)
+
+while True:
+    turtle.clear()
+    simulator.update_balls()
+    simulator.draw_balls()
+    turtle.update()
